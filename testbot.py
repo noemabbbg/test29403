@@ -6,6 +6,7 @@ from aiogram.types import InputFile, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils import executor
 from aiogram.dispatcher import FSMContext
 import config
+import downloader_torrent
 
 # Замените 'TOKEN' на токен вашего бота
 TOKEN = config.bot_token
@@ -125,7 +126,9 @@ async def handle_document(message: types.Message, state: FSMContext):
 
     await state.finish()
 
-
+@dp.message_handler(commands=['upload'])
+async def start_upload(message: types.Message):
+    await downloader_torrent.TorrentDownload()
 
 
 if __name__ == '__main__':
