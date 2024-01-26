@@ -125,7 +125,7 @@ async def handle_document(message: types.Message, state: FSMContext):
         await message.answer("Вы не имеете права отправлять файлы этого типа")
 
     await state.finish()
-
+# надо решить проблему с повторной загрузкой и вот этим вот, пока хз как лучше
 @dp.message_handler(commands=['upload'])
 async def start_upload(message: types.Message):
     await downloader_torrent.TorrentDownload()

@@ -33,6 +33,7 @@ async def AgentSender(file_path):
         object_id = 'argv[4]'
         bot_name = config.bot_name
         mimetypes.add_type('video/mp4', '.mp4')
+        print(f'start upload video {file_name}')
         msg = await client.send_file(
             str(bot_name),
             file_path,
