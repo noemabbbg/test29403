@@ -5,6 +5,8 @@ from aiogram import Bot, Dispatcher, types
 from aiogram.types import InputFile, ReplyKeyboardMarkup, KeyboardButton
 from aiogram.utils import executor
 from aiogram.dispatcher import FSMContext
+
+import agent_sender
 import config
 import downloader_torrent
 import datetime
@@ -131,7 +133,9 @@ async def handle_document(message: types.Message, state: FSMContext):
 @dp.message_handler(commands=['upload'])
 async def start_upload(message: types.Message):
     await downloader_torrent.TorrentDownload()
-
+@dp.message_handler(commands=['tgup'])
+async def start_upload(message: types.Message):
+    await agent_sender.AgentSender()
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)

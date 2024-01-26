@@ -48,7 +48,7 @@ async def MkvToMp4(input_folder):
                 logging.info(f"Высота видео: {height} пикселей")
 
                 # Отправка файла после преобразования
-                await AgentSender(output_file, duration, width, height)
+                #await AgentSender(output_file, duration, width, height)
 
                 # Логирование завершения преобразования
                 logging.info(f"Преобразование файла завершено. Результат: {output_file}")
