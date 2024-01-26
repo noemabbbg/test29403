@@ -6,12 +6,13 @@ import re
 import asyncio
 from agent_sender import AgentSender
 import logging
+import datetime
 
 
 # Настройка логирования
 logging.basicConfig(filename='conversion.log', level=logging.INFO)
 
-async def MkvToMp4(dp, input_folder):
+async def MkvToMp4(input_folder):
     output_folder = './preobr'
 
     for file_name in os.listdir(input_folder):
@@ -50,7 +51,9 @@ async def MkvToMp4(dp, input_folder):
 
 
 async def TorrentDownload():
-    input_folder = './torrentLinks'
+    today_date = datetime.now().strftime("%Y-%m-%d")
+    directory_path = os.path.join('.', 'torrentlinks', today_date)
+    input_folder = directory_path
 
     for file_name in os.listdir(input_folder):
         if file_name.endswith('.torrent'):
