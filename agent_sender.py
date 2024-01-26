@@ -16,14 +16,14 @@ async def AgentSender():
     try:
         await client.connect()
 
-
+        '''
         if not client.is_user_authorized():
             await client.send_code_request(phone)
             await client.sign_in(phone, input('Enter code: '))
+        '''
 
-
-        client.start(phone=phone)
-        await client.start()
+        await client.start(phone=phone)
+        #await client.start()
 
         preobr_folder = './preobr'
 
