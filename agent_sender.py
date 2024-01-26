@@ -1,16 +1,12 @@
 import asyncio
-import aiohttp
-from telethon import TelegramClient
-from telethon.tl.types import DocumentAttributeAudio
-import mimetypes
-import os 
 import os
 from telethon import TelegramClient
-from telethon.tl.types import DocumentAttributeAudio
+from telethon.tl.types import DocumentAttributeVideo
 import mimetypes
 import config
 
-async def AgentSender(file_path):
+
+async def AgentSender():
     entity = 'asdasdads'
     api_id = config.api_id
     api_hash = config.api_hash
@@ -20,29 +16,41 @@ async def AgentSender(file_path):
     try:
         await client.connect()
 
-        '''
+
         if not client.is_user_authorized():
             await client.send_code_request(phone)
             await client.sign_in(phone, input('Enter code: '))
-        '''
+
 
         client.start(phone=phone)
         await client.start()
-        file_name = os.path.basename(file_path)
-        chat_id = config.chat_id
-        object_id = 'argv[4]'
-        bot_name = config.bot_name
-        mimetypes.add_type('video/mp4', '.mp4')
-        print(f'start upload video {file_name}')
-        msg = await client.send_file(
-            str(bot_name),
-            file_path,
-            caption=file_name,
-            file_name=str(file_name),
-            use_cache=False,
-            part_size_kb=512,
-            attributes=[DocumentAttributeAudio(title=file_name[:-4], performer='')]
-        )
+
+        preobr_folder = './preobr'
+
+        for file_name in os.listdir(preobr_folder):
+            if file_name.endswith('.mp4'):
+                file_path = os.path.join(preobr_folder, file_name)
+
+                chat_id = config.chat_id
+                bot_name = config.bot_name
+
+                # Добавляем поддержку разных типов медиа (в данном случае - видео)
+                mimetypes.add_type('video/mp4', '.mp4')
+
+                print(f'Start upload video {file_name}')
+
+                # Отправляем файл
+                await client.send_file(
+                    str(bot_name),
+                    file_path,
+                    caption=file_name,
+                    file_name=str(file_name),
+                    use_cache=False,
+                    part_size_kb=512,
+                    attributes=[DocumentAttributeVideo()]
+                )
+
+                print(f'Upload completed for {file_name}')
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
@@ -51,6 +59,5 @@ async def AgentSender(file_path):
         await client.disconnect()
 
 
-
-#if __name__ == "__main__":
- #   asyncio.run(main())
+if __name__ == "__main__":
+    asyncio.run(AgentSender())
