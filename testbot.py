@@ -11,7 +11,7 @@ import datetime
 
 # Замените 'TOKEN' на токен вашего бота
 TOKEN = config.bot_token
-db_path = 'ani_test1.sqlite'
+db_path = 'ani_test2.sqlite'
 
 # Создаем соединение с базой данных
 conn = sqlite3.connect(db_path)

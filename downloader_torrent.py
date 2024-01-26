@@ -31,20 +31,27 @@ async def MkvToMp4(input_folder):
                 # Преобразование формата с использованием ffmpeg
                 process = ffmpeg.input(input_file).output(output_file).run_async(overwrite_output=True)
 
-                # Логирование размера файла каждую секунду
-                while process.poll() is None:
-                    current_size = os.path.getsize(output_file)
-                    logging.info(f"Преобразовано {current_size} байт из {file_size} байт")
-                    await asyncio.sleep(1)
+                # Дождемся завершения процесса
+                await process.wait()
+
+                # Получение информации о видео с помощью ffprobe
+                probe_result = ffmpeg.probe(output_file, v='error_return')
+
+                # Получение длительности, ширины и высоты видео
+                duration = float(probe_result['format']['duration'])
+                width = int(probe_result['streams'][0]['width'])
+                height = int(probe_result['streams'][0]['height'])
+
+                # Логирование длительности, ширины и высоты видео
+                logging.info(f"Длительность видео: {duration} секунд")
+                logging.info(f"Ширина видео: {width} пикселей")
+                logging.info(f"Высота видео: {height} пикселей")
+
+                # Отправка файла после преобразования
+                await AgentSender(output_file, duration, width, height)
 
                 # Логирование завершения преобразования
                 logging.info(f"Преобразование файла завершено. Результат: {output_file}")
-
-                # Отправка статуса в телеграм
-
-
-                # Отправка файла после преобразования
-                await AgentSender(output_file)
 
             except Exception as e:
                 logging.error(f"Ошибка при преобразовании файла: {str(e)}")
