@@ -101,7 +101,7 @@ async def handle_document(message: types.Message, state: FSMContext):
     if message.from_user.id == user_id_to_accept:
         document = message.document
         if document.mime_type == 'application/x-bittorrent' and document.file_name.endswith('.torrent'):
-            today_date = datetime.now().strftime("%Y-%m-%d")
+            today_date =datetime.datetime.now().strftime("%Y-%m-%d")
             directory_path = os.path.join('.', 'torrentlinks', today_date)
             os.makedirs(directory_path, exist_ok=True)
             file_path = os.path.join(directory_path, document.file_name)

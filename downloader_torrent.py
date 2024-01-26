@@ -58,7 +58,7 @@ async def MkvToMp4(input_folder):
 
 
 async def TorrentDownload():
-    today_date = datetime.now().strftime("%Y-%m-%d")
+    today_date = datetime.datetime.now().strftime("%Y-%m-%d")
     directory_path = os.path.join('.', 'torrentlinks', today_date)
     input_folder = directory_path
 
